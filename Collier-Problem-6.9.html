@@ -18,80 +18,14 @@
   <h1>Riemann curvature tensor for the surface of a unit radius sphere</h1>
   <pre id="output"></pre>
 
+  <script src="js/ChristoffelSymbol.js"></script>
+  <script src="js/Riemann.js"></script>
+  <script src="js/RiemannSimplified.js"></script>
   <script>
-	class ChristoffelSymbol {
-	  constructor(upper, lower1, lower2) {
-	    this.upper = upper;
-	    this.lower1 = lower1;
-	    this.lower2 = lower2;
-	  }
-
-	  toString() {
-	    return '<math xmlns>' +
-	      '<mmultiscripts>' +
-	        '<mi>Γ</mi>' +
-			'<mi>' + indexToCoordinate(this.lower1) + '</mi>' +
-			'<mi>' + indexToCoordinate(this.upper) + '</mi>' +
-	        '<mi>' + indexToCoordinate(this.lower2) + '</mi>' +
-			'<none/>' +
-	      '</mmultiscripts>' +
-	    '</math>';
-	  }
+	function indexToCoordinate(num) {
+		const superscripts = ['θ', 'ϕ'];
+		return superscripts[num];
 	}
-
-	class Riemann {
-		constructor(h, i, j, k) {
-			this.h = h;
-			this.i = i;
-			this.j = j;
-			this.k = k;
-			this.cs1 = new ChristoffelSymbol(h, i, k)
-			this.cs2 = new ChristoffelSymbol(h, i, j)
-			this.csm = [];
-			for (let m = 0; m < 2; m++) {
-				this.csm[m] = [];
-				this.csm[m][0] = new ChristoffelSymbol(m, i, k);
-				this.csm[m][1] = new ChristoffelSymbol(h, m, j);
-				this.csm[m][2] = new ChristoffelSymbol(m, i, j);
-				this.csm[m][3] = new ChristoffelSymbol(h, m, k);
-			}
-		}
-
-		toString() {
-			let mTerms = '';
-			for (let m = 0; m < 2; m++) {
-				mTerms += this.csm[m][0] + this.csm[m][1] + ' − ' + this.csm[m][2] + this.csm[m][3];
-				if (m != 1) {
-					mTerms += ' + ';
-				}
-			}
-			return '<math xmlns>' +
-				'<mmultiscripts>' +
-					'<mi>R</mi>' +
-					'<mi>' + indexToCoordinate(this.i) + '</mi>' +
-					'<mi>' + indexToCoordinate(this.h) + '</mi>' +
-					'<mi>' + indexToCoordinate(this.j) + '</mi>' +
-					'<none/>' +
-					'<mi>' + indexToCoordinate(this.k) + '</mi>' +
-					'<none/>' +
-				'</mmultiscripts>' +
-				'<mo>=</mo>' +
-				'<mfrac>' +
-					'<mrow><mi>∂</mi><mi>' + this.cs1 + '</mi></mrow>' +
-					'<mrow><mi>∂</mi><mi>' + indexToCoordinate(this.j) + '</mi></mrow>' +
-				'</mfrac>' +
-				'<mo>−</mo>' +
-				'<mfrac>' +
-					'<mrow><mi>∂</mi><mi>' + this.cs2 + '</mi></mrow>' +
-					'<mrow><mi>∂</mi><mi>' + indexToCoordinate(this.k) + '</mi></mrow>' +
-				'</mfrac>' +
-				'<mo>+</mo>' +
-			'</math>' +
-			mTerms;
-			//this.csm[0][0] + ' ' + this.csm[0][1] + ' ' + this.csm[0][2] + ' ' + this.csm[0][3];
-		}
-	}
-
 
 	let n = 1;
 	let output = '';
@@ -99,33 +33,15 @@
 		for (let i = 0; i < 2; i++) {
 			for (let j = 0; j < 2; j++) {
 				for (let k = 0; k < 2; k++) {
-					output += n++ + '. ' + evaluate(createR(h, i, j, k)) + '\n\n';
+					const riemann = new Riemann(h, i, j, k);
+					const riemannSimplified = new RiemannSimplified(riemann);
+					output += n++ + '.\t' + riemann + '\n\n\t\t=';
+					output += riemannSimplified + '\n\n\n';
 				}
 			}
 		}
 	}
     document.getElementById('output').innerHTML = output;
-
-
-
-	function createR(h, i, j, k) {
-		let riemann = new Riemann(h, i, j, k);
-		return riemann;
-	}
-
-
-	function evaluate(expression) {
-	  // This function would contain the logic to evaluate the expression.
-	  // For now, it just returns the expression as a string.
-	  return expression;
-	}
-
-
-	function indexToCoordinate(num) {
-	  const superscripts = ['θ', 'ϕ'];
-	  return superscripts[num];
-	}
-
   </script>
 </body>
 </html>
