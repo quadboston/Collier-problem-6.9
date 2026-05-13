@@ -16,12 +16,18 @@ class Riemann {
 		}
 	}
 
+	productString(f1, f2) {
+		return f1 == 0 || f2 == 0 ? f1 + '·' + f2 : f1 + f2;
+	}
+
 	express() {
 		let mTerms = '';
 		for (let m = 0; m < 2; m++) {
-			mTerms += this.csm[m][0] + this.csm[m][1] + ' − ' + this.csm[m][2] + this.csm[m][3];
+			mTerms += this.productString(this.csm[m][0], this.csm[m][1]) + 
+				'<math xmlns><mo>−</mo></math>' + 
+				this.productString(this.csm[m][2], this.csm[m][3]);
 			if (m != 1) {
-				mTerms += ' + ';
+				mTerms += '<math xmlns><mo>+</mo></math>';
 			}
 		}
 		return '<math xmlns>' +

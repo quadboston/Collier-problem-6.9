@@ -20,7 +20,7 @@
 
   <script src="js/ChristoffelSymbol.js"></script>
   <script src="js/Riemann.js"></script>
-  <script src="js/RiemannSimplified.js"></script>
+  <script src="js/Riemann0sDropped.js"></script>
   <script>
 	function indexToCoordinate(num) {
 		const superscripts = ['θ', 'ϕ'];
@@ -34,13 +34,11 @@
 			for (let j = 0; j < 2; j++) {
 				for (let k = 0; k < 2; k++) {
 					const riemann = new Riemann(h, i, j, k);
-					const riemannSimplified = new RiemannSimplified(riemann);
 					ChristoffelSymbol.show0s = false;
-					output += n++ + '.\t' + riemann + ' = ' + riemann.express() + '\n\n\t\t=';
+					output += n++ + '.\t' + riemann + ' = ' + riemann.express() + '\n\n\t\t= ';
 					ChristoffelSymbol.show0s = true;
-					output += riemann.express() + '\n\n\t\t=';
-					output += riemann.drop0s() + '\n\n\t\t=';
-					output += riemannSimplified + '\n\n\n';
+					output += riemann.express() + '\n\n\t\t= ';
+					output += new Riemann0sDropped(riemann) + '\n\n';
 				}
 			}
 		}
