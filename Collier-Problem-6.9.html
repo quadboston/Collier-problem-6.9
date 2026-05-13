@@ -15,7 +15,7 @@
   </style>
 </head>
 <body>
-  <h1>Riemann curvature tensor for the surface of a unit radius sphere</h1>
+  <h1>Riemann curvature tensors for the surface of a unit radius sphere</h1>
   <pre id="output"></pre>
 
   <script src="js/ChristoffelSymbol.js"></script>
@@ -34,16 +34,23 @@
 			for (let j = 0; j < 2; j++) {
 				for (let k = 0; k < 2; k++) {
 					const riemann = new Riemann(h, i, j, k);
-					ChristoffelSymbol.show0s = false;
+					const riemann0sDropped = new Riemann0sDropped(riemann);
+					ChristoffelSymbol.show0s = ChristoffelSymbol.showNon0Value = false;
 					output += n++ + '.\t' + riemann + ' = ' + riemann.express() + '\n\n\t\t= ';
 					ChristoffelSymbol.show0s = true;
 					output += riemann.express() + '\n\n\t\t= ';
-					output += new Riemann0sDropped(riemann) + '\n\n';
+					output += riemann0sDropped + '\n\n';
+					if (riemann0sDropped.toString() != '0') {
+						output += '\t\t= ';
+						ChristoffelSymbol.showNon0Value = true;
+						output += riemann0sDropped + '\n\n';
+						output += '\n\n';
+					}
 				}
 			}
 		}
 	}
-    document.getElementById('output').innerHTML = output;
+  document.getElementById('output').innerHTML = output;
   </script>
 </body>
 </html>

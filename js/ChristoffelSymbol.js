@@ -1,15 +1,16 @@
 class ChristoffelSymbol {
 	values = [
 		[	// upper θ
-			[0, 0],																	// θθθ, θθϕ
-			[0, '-sin(θ)cos(θ)']	// θϕθ, θϕϕ
+			[0, 0],												// θθθ, θθϕ
+			[0, '−sin θ cos θ']	// θϕθ, θϕϕ
 		],
 		[ // upper ϕ
-			[0, 'cot(θ)'],											// ϕθθ, ϕθϕ
-			['cot(θ)', 0											]// ϕϕθ, ϕϕϕ
+			[0, 'cot θ'],							// ϕθθ, ϕθϕ
+			['cot θ', 0]								// ϕϕθ, ϕϕϕ
 		],
 	];
 	static show0s = false;
+	static showNon0Value = false;
 
 	constructor(upper, lower1, lower2) {
 		this.upper = upper;
@@ -18,7 +19,10 @@ class ChristoffelSymbol {
 	}
 
 	toString() {
-		if (ChristoffelSymbol.show0s && this.values[this.upper][this.lower1][this.lower2] === 0) {
+		 if (ChristoffelSymbol.showNon0Value && this.values[this.upper][this.lower1][this.lower2] != 0) {
+			return '<mtext>(' + this.values[this.upper][this.lower1][this.lower2] + ')</mtext>';
+		 }
+		else if (ChristoffelSymbol.show0s && this.values[this.upper][this.lower1][this.lower2] === 0) {
 			return '0';
 		} else {
 			return '<math xmlns>' +
