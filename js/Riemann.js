@@ -17,24 +17,6 @@ class Riemann {
 	}
 
 	express() {
-		// This function would contain the logic to express the Riemann curvature tensor in terms of Christoffel symbols.
-		// For now, it just returns a placeholder value.
-		return '?';
-	}
-
-	show0s() {
-		// This function would contain the logic to show the zero values of the Riemann curvature tensor.
-		// For now, it just returns a placeholder value.
-		return '?';
-	}
-
-	drop0s() {
-		// This function would contain the logic to drop the zero values of the Riemann curvature tensor.
-		// For now, it just returns a placeholder value.
-		return '?';
-	}
-
-	toString() {
 		let mTerms = '';
 		for (let m = 0; m < 2; m++) {
 			mTerms += this.csm[m][0] + this.csm[m][1] + ' − ' + this.csm[m][2] + this.csm[m][3];
@@ -43,16 +25,6 @@ class Riemann {
 			}
 		}
 		return '<math xmlns>' +
-			'<mmultiscripts>' +
-				'<mi>R</mi>' +
-				'<mi>' + indexToCoordinate(this.i) + '</mi>' +
-				'<mi>' + indexToCoordinate(this.h) + '</mi>' +
-				'<mi>' + indexToCoordinate(this.j) + '</mi>' +
-				'<none/>' +
-				'<mi>' + indexToCoordinate(this.k) + '</mi>' +
-				'<none/>' +
-			'</mmultiscripts>' +
-			'<mo>=</mo>' +
 			'<mfrac>' +
 				'<mrow><mi>∂</mi><mi>' + this.cs1 + '</mi></mrow>' +
 				'<mrow><mi>∂</mi><mi>' + indexToCoordinate(this.j) + '</mi></mrow>' +
@@ -65,5 +37,25 @@ class Riemann {
 			'<mo>+</mo>' +
 		'</math>' +
 		mTerms;
+	}
+
+	drop0s() {
+		// This function would contain the logic to drop the zero values of the Riemann curvature tensor.
+		// For now, it just returns a placeholder value.
+		return '?';
+	}
+
+	toString() {
+		return '<math xmlns>' +
+			'<mmultiscripts>' +
+				'<mi>R</mi>' +
+				'<mi>' + indexToCoordinate(this.i) + '</mi>' +
+				'<mi>' + indexToCoordinate(this.h) + '</mi>' +
+				'<mi>' + indexToCoordinate(this.j) + '</mi>' +
+				'<none/>' +
+				'<mi>' + indexToCoordinate(this.k) + '</mi>' +
+				'<none/>' +
+			'</mmultiscripts>' +
+		'</math>';
 	}
 }

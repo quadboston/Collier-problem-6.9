@@ -35,7 +35,11 @@
 				for (let k = 0; k < 2; k++) {
 					const riemann = new Riemann(h, i, j, k);
 					const riemannSimplified = new RiemannSimplified(riemann);
-					output += n++ + '.\t' + riemann + '\n\n\t\t=';
+					ChristoffelSymbol.show0s = false;
+					output += n++ + '.\t' + riemann + ' = ' + riemann.express() + '\n\n\t\t=';
+					ChristoffelSymbol.show0s = true;
+					output += riemann.express() + '\n\n\t\t=';
+					output += riemann.drop0s() + '\n\n\t\t=';
 					output += riemannSimplified + '\n\n\n';
 				}
 			}

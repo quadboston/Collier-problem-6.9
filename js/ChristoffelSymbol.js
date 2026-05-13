@@ -1,8 +1,16 @@
 class ChristoffelSymbol {
 	values = [
-		[[0, 0], [0, 0]],
-		[[0, 0], [0, 0]],
+		[	// upper θ
+			[0, 0],																	// θθθ, θθϕ
+			[0, '-sin(θ)cos(θ)']	// θϕθ, θϕϕ
+		],
+		[ // upper ϕ
+			[0, 'cot(θ)'],											// ϕθθ, ϕθϕ
+			['cot(θ)', 0											]// ϕϕθ, ϕϕϕ
+		],
 	];
+	static show0s = false;
+
 	constructor(upper, lower1, lower2) {
 		this.upper = upper;
 		this.lower1 = lower1;
@@ -10,20 +18,18 @@ class ChristoffelSymbol {
 	}
 
 	toString() {
-	    return '<math xmlns>' +
-	      '<mmultiscripts>' +
-	        '<mi>Γ</mi>' +
-			'<mi>' + indexToCoordinate(this.lower1) + '</mi>' +
-			'<mi>' + indexToCoordinate(this.upper) + '</mi>' +
-	        '<mi>' + indexToCoordinate(this.lower2) + '</mi>' +
-			'<none/>' +
-	      '</mmultiscripts>' +
-	    '</math>';
-	  }
-
-	evaluate() {
-	    // This function would contain the logic to evaluate the Christoffel symbol.
-	    // For now, it just returns a placeholder value.
-	    	return values[this.upper][this.lower1][this.lower2];
-	  	}
+		if (ChristoffelSymbol.show0s && this.values[this.upper][this.lower1][this.lower2] === 0) {
+			return '0';
+		} else {
+			return '<math xmlns>' +
+				'<mmultiscripts>' +
+					'<mi>Γ</mi>' +
+					'<mi>' + indexToCoordinate(this.lower1) + '</mi>' +
+					'<mi>' + indexToCoordinate(this.upper) + '</mi>' +
+					'<mi>' + indexToCoordinate(this.lower2) + '</mi>' +
+					'<none/>' +
+				'</mmultiscripts>' +
+				'</math>';
+		}
+	}
 }
