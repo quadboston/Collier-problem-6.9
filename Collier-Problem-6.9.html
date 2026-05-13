@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Print Numbers 1-16</title>
+  <style>
+    body {
+      padding: 20px;
+    }
+    #output {
+      font-size: 24px;
+	        font-family:  Palatino;
+    }
+  </style>
+</head>
+<body>
+  <h1>Numbers 1 through 16</h1>
+  <pre id="output"></pre>
+
+  <script>
+	let output = '';
+	for (let h = 0; h <= 1; h++) {
+		for (let i = 0; i <= 1; i++) {
+			for (let j = 0; j <= 1; j++) {
+				for (let k = 0; k <= 1; k++) {
+					output += line1(h, i, j, k) + '\n';
+				}
+			}
+		}
+	}
+    document.getElementById('output').textContent = output;
+
+	function line1(h, i, j, k) {
+	  return  line1Numerator(h, i, j, k) + '\n' 
+	  	+ line1Middle(h, i, j, k) + '\n' 
+		+ line1Denominator(h, i, j, k) + '\n';
+	}
+
+	function line1Numerator(h, i, j, k) {
+	  return `\t\t∂Γ` + superscript(h) + subscript(i) + subscript(k) + '\t' + `∂Γ` + superscript(h) + subscript(i) + subscript(j);
+	}
+
+	function line1Middle(h, i, j, k) {
+	  return line1MiddleLeft(h, i, j, k) + ' = ' + line1MiddleRight(h, i, j, k);
+	}
+
+	function line1MiddleLeft(h, i, j, k) {
+	  return  'R' + superscript(h) + subscript(i) + subscript(j) + subscript(k);
+	}
+
+	function line1MiddleRight(h, i, j, k) {
+		let middle =  ' ⎯⎯⎯ − ⎯⎯⎯ + ';
+		for (let m = 0; m <= 1; m++) {
+	    	middle += 'Γ' + superscript(m) + subscript(i) + subscript(k) + 'Γ' + superscript(h) + subscript(m) + subscript(j);
+		if (m == 0) middle += ' + ';
+	  }
+	  	middle += ' − ';
+	  	for (let m = 0; m <= 1; m++) {
+	   		middle += 'Γ' + superscript(m) + subscript(i) + subscript(j) + 'Γ' + superscript(h) + subscript(m) + subscript(k);
+		if (m == 0) middle += ' − ';
+	  }
+	  return middle;
+	}
+
+	function line1Denominator(h, i, j, k) {
+	  return `\t\t∂x` + superscript(j) + '\t' + `∂x` + superscript(k);
+	}
+
+	function superscript(num) {
+	  const superscripts = ['^θ', '^ϕ'];
+	  return superscripts[num];
+	}
+
+	function subscript(num) {
+	  const subscripts = ['ₑ', 'ᵩ'];
+	  return subscripts[num];
+	}
+
+  </script>
+</body>
+</html>
