@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Print Numbers 1-16</title>
+  <title>Riemann curvature tensory</title>
   <style>
     body {
       padding: 20px;
@@ -15,66 +15,86 @@
   </style>
 </head>
 <body>
-  <h1>Numbers 1 through 16</h1>
+  <h1>Riemann curvature tensor for the surface of a unit radius sphere</h1>
   <pre id="output"></pre>
 
   <script>
+	class ChristoffelSymbol {
+	  constructor(upper, lower1, lower2) {
+	    this.upper = upper;
+	    this.lower1 = lower1;
+	    this.lower2 = lower2;
+	  }
+
+	  toString() {
+	    return '<math xmlns>' +
+	      '<mmultiscripts>' +
+	        '<mi>Γ</mi>' +
+			'<mi>' + indexToCoordinate(this.lower1) + '</mi>' +
+			'<mi>' + indexToCoordinate(this.upper) + '</mi>' +
+	        '<mi>' + indexToCoordinate(this.lower2) + '</mi>' +
+			'<none/>' +
+	      '</mmultiscripts>' +
+	    '</math>';
+	  }
+	}
+
+	class Riemann {
+		constructor(h, i, j, k) {
+			this.h = h;
+			this.i = i;
+			this.j = j;
+			this.k = k;
+		}
+
+		toString() {
+			return '<math xmlns>' +
+			'<mmultiscripts>' +
+				'<mi>R</mi>' +
+				'<mi>' + indexToCoordinate(this.i) + '</mi>' +
+				'<mi>' + indexToCoordinate(this.h) + '</mi>' +
+				'<mi>' + indexToCoordinate(this.j) + '</mi>' +
+				'<none/>' +
+				'<mi>' + indexToCoordinate(this.k) + '</mi>' +
+				'<none/>' +
+			'</mmultiscripts>' +
+			'</math>';
+		}
+	}
+
+	
+	let n = 1;
 	let output = '';
 	for (let h = 0; h <= 1; h++) {
 		for (let i = 0; i <= 1; i++) {
 			for (let j = 0; j <= 1; j++) {
 				for (let k = 0; k <= 1; k++) {
-					output += line1(h, i, j, k) + '\n';
+					output += n++ + '. ' + evaluate(createR(h, i, j, k)) + '\n\n';
 				}
 			}
 		}
 	}
-    document.getElementById('output').textContent = output;
+    document.getElementById('output').innerHTML = output;
 
-	function line1(h, i, j, k) {
-	  return  line1Numerator(h, i, j, k) + '\n' 
-	  	+ line1Middle(h, i, j, k) + '\n' 
-		+ line1Denominator(h, i, j, k) + '\n';
+
+
+	function createR(h, i, j, k) {
+		let riemann = new Riemann(h, i, j, k);
+		let cs1 = new ChristoffelSymbol(h, i, k)
+		return riemann;
 	}
 
-	function line1Numerator(h, i, j, k) {
-	  return `\t\t∂Γ` + superscript(h) + subscript(i) + subscript(k) + '\t' + `∂Γ` + superscript(h) + subscript(i) + subscript(j);
+
+	function evaluate(expression) {
+	  // This function would contain the logic to evaluate the expression.
+	  // For now, it just returns the expression as a string.
+	  return expression;
 	}
 
-	function line1Middle(h, i, j, k) {
-	  return line1MiddleLeft(h, i, j, k) + ' = ' + line1MiddleRight(h, i, j, k);
-	}
 
-	function line1MiddleLeft(h, i, j, k) {
-	  return  'R' + superscript(h) + subscript(i) + subscript(j) + subscript(k);
-	}
-
-	function line1MiddleRight(h, i, j, k) {
-		let middle =  ' ⎯⎯⎯ − ⎯⎯⎯ + ';
-		for (let m = 0; m <= 1; m++) {
-	    	middle += 'Γ' + superscript(m) + subscript(i) + subscript(k) + 'Γ' + superscript(h) + subscript(m) + subscript(j);
-		if (m == 0) middle += ' + ';
-	  }
-	  	middle += ' − ';
-	  	for (let m = 0; m <= 1; m++) {
-	   		middle += 'Γ' + superscript(m) + subscript(i) + subscript(j) + 'Γ' + superscript(h) + subscript(m) + subscript(k);
-		if (m == 0) middle += ' − ';
-	  }
-	  return middle;
-	}
-
-	function line1Denominator(h, i, j, k) {
-	  return `\t\t∂x` + superscript(j) + '\t' + `∂x` + superscript(k);
-	}
-
-	function superscript(num) {
-	  const superscripts = ['^θ', '^ϕ'];
+	function indexToCoordinate(num) {
+	  const superscripts = ['θ', 'ϕ'];
 	  return superscripts[num];
-	}
-
-	function subscript(num) {
-	  const subscripts = ['ₑ', 'ᵩ'];
-	  return subscripts[num];
 	}
 
   </script>
