@@ -9,8 +9,8 @@
       padding: 20px;
     }
     #output {
-      font-size: 24px;
-	        font-family:  Palatino;
+    	font-size: 28px;
+		font-family:  Palatino;
     }
   </style>
 </head>
@@ -45,30 +45,60 @@
 			this.i = i;
 			this.j = j;
 			this.k = k;
+			this.cs1 = new ChristoffelSymbol(h, i, k)
+			this.cs2 = new ChristoffelSymbol(h, i, j)
+			this.csm = [];
+			for (let m = 0; m < 2; m++) {
+				this.csm[m] = [];
+				this.csm[m][0] = new ChristoffelSymbol(m, i, k);
+				this.csm[m][1] = new ChristoffelSymbol(h, m, j);
+				this.csm[m][2] = new ChristoffelSymbol(m, i, j);
+				this.csm[m][3] = new ChristoffelSymbol(h, m, k);
+			}
 		}
 
 		toString() {
+			let mTerms = '';
+			for (let m = 0; m < 2; m++) {
+				mTerms += this.csm[m][0] + this.csm[m][1] + ' − ' + this.csm[m][2] + this.csm[m][3];
+				if (m != 1) {
+					mTerms += ' + ';
+				}
+			}
 			return '<math xmlns>' +
-			'<mmultiscripts>' +
-				'<mi>R</mi>' +
-				'<mi>' + indexToCoordinate(this.i) + '</mi>' +
-				'<mi>' + indexToCoordinate(this.h) + '</mi>' +
-				'<mi>' + indexToCoordinate(this.j) + '</mi>' +
-				'<none/>' +
-				'<mi>' + indexToCoordinate(this.k) + '</mi>' +
-				'<none/>' +
-			'</mmultiscripts>' +
-			'</math>';
+				'<mmultiscripts>' +
+					'<mi>R</mi>' +
+					'<mi>' + indexToCoordinate(this.i) + '</mi>' +
+					'<mi>' + indexToCoordinate(this.h) + '</mi>' +
+					'<mi>' + indexToCoordinate(this.j) + '</mi>' +
+					'<none/>' +
+					'<mi>' + indexToCoordinate(this.k) + '</mi>' +
+					'<none/>' +
+				'</mmultiscripts>' +
+				'<mo>=</mo>' +
+				'<mfrac>' +
+					'<mrow><mi>∂</mi><mi>' + this.cs1 + '</mi></mrow>' +
+					'<mrow><mi>∂</mi><mi>' + indexToCoordinate(this.j) + '</mi></mrow>' +
+				'</mfrac>' +
+				'<mo>−</mo>' +
+				'<mfrac>' +
+					'<mrow><mi>∂</mi><mi>' + this.cs2 + '</mi></mrow>' +
+					'<mrow><mi>∂</mi><mi>' + indexToCoordinate(this.k) + '</mi></mrow>' +
+				'</mfrac>' +
+				'<mo>+</mo>' +
+			'</math>' +
+			mTerms;
+			//this.csm[0][0] + ' ' + this.csm[0][1] + ' ' + this.csm[0][2] + ' ' + this.csm[0][3];
 		}
 	}
 
-	
+
 	let n = 1;
 	let output = '';
-	for (let h = 0; h <= 1; h++) {
-		for (let i = 0; i <= 1; i++) {
-			for (let j = 0; j <= 1; j++) {
-				for (let k = 0; k <= 1; k++) {
+	for (let h = 0; h < 2; h++) {
+		for (let i = 0; i < 2; i++) {
+			for (let j = 0; j < 2; j++) {
+				for (let k = 0; k < 2; k++) {
 					output += n++ + '. ' + evaluate(createR(h, i, j, k)) + '\n\n';
 				}
 			}
@@ -80,7 +110,6 @@
 
 	function createR(h, i, j, k) {
 		let riemann = new Riemann(h, i, j, k);
-		let cs1 = new ChristoffelSymbol(h, i, k)
 		return riemann;
 	}
 
