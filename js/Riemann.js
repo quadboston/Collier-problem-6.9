@@ -45,12 +45,6 @@ class Riemann {
 		mTerms;
 	}
 
-	drop0s() {
-		// This function would contain the logic to drop the zero values of the Riemann curvature tensor.
-		// For now, it just returns a placeholder value.
-		return '?';
-	}
-
 	toString() {
 		return '<math xmlns>' +
 			'<mmultiscripts>' +
